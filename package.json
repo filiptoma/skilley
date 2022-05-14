@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^1.8.8",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@fontsource/poppins": "^4.5.8",
+    "@heroicons/react": "^1.0.6",
     "firebase": "^9.7.0",
+    "formik": "^2.2.9",
+    "formik-chakra-ui": "^1.6.0",
+    "framer-motion": "^6.3.3",
+    "nanoid": "^3.3.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^16.7.13",

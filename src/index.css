@@ -3,9 +3,8 @@ Please use this as CSS file for global tags like <body> or <html> */
 
 *:focus {
     box-shadow: none !important;
-  }
-  
-  *[data-focus] {
+}
+
+*[data-focus] {
     box-shadow: none !important;
-  }
-  
+}
