@@ -1,15 +1,15 @@
 import '@fontsource/lato';
-import { ThemeProvider, Typography } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import { AuthProvider } from 'hooks/useLoggedInUser.tsx';
+import Router from 'Router.tsx';
 import theme from 'utils/theme.ts';
 
 const App = () => (
   <AuthProvider>
     <ThemeProvider theme={theme}>
-      <div>
-        <Typography>Skilley</Typography>
-      </div>
+      <CssBaseline />
+      <Router />
     </ThemeProvider>
   </AuthProvider>
 );
