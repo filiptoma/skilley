@@ -32,6 +32,6 @@
     "noUncheckedIndexedAccess": true /* Add 'undefined' to a type when accessed using an index. */,
     "baseUrl": "src"
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
