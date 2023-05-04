@@ -37,6 +37,8 @@
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "no-console": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
     "prettier/prettier": [
       "error",
       {
@@ -45,7 +47,7 @@
     ],
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": [
-      2,
+      "error",
       {
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
