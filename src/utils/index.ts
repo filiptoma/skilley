@@ -1,3 +1,7 @@
+import { FirebaseError } from 'firebase/app';
+import { omit } from 'lodash-es';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 const appendIssue = (
@@ -32,3 +36,69 @@ export const inputOptionsMapper = (names: Record<symbol, string>) =>
     value: key,
     label: label as string,
   }));
+
+const getNodeText = (node: React.ReactNode): string => {
+  if (node === null || node === undefined) return '';
+
+  if (Array.isArray(node))
+    return node
+      .map(getNodeText)
+      .filter((v) => v)
+      .join(' ');
+
+  if (React.isValidElement(node)) {
+    if (Array.isArray(node.props.children))
+      return node.props.children
+        .map(getNodeText)
+        .filter((v: unknown) => v)
+        .join(' ');
+    return getNodeText(node.props.children);
+  }
+
+  return String(node);
+};
+
+export type LinkProps = {
+  to: string;
+  title?: string;
+  inNewTab?: boolean;
+} & (
+  | { external: true; download?: boolean }
+  | { external?: false; state?: unknown }
+);
+
+export const getLinkProps = ({
+  to,
+  inNewTab,
+  title,
+  children,
+  ...props
+}: LinkProps & {
+  children: React.ReactNode;
+}) => ({
+  title: title ?? getNodeText(children),
+  ...(props.external
+    ? {
+        component: 'a' as const,
+        href: to,
+        ...omit(props, ['external', 'link']),
+      }
+    : {
+        component: Link,
+        to,
+        ...omit(props, ['external', 'link']),
+      }),
+  ...(inNewTab ? { target: '_blank', rel: 'noreferrer noopener' } : {}),
+});
+
+export const getAuthError = (error: unknown): string | undefined => {
+  const firebaseErrors: Record<string, string> = {
+    'auth/email-already-exists': 'Email se již používá',
+    'auth/email-already-in-use': 'Email se již používá',
+    'auth/wrong-password': 'Nesprávný email nebo heslo',
+    'auth/user-not-found': 'Nesprávný email nebo heslo',
+  };
+  return error instanceof FirebaseError
+    ? firebaseErrors[error.code]
+    : undefined;
+};

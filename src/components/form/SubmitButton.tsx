@@ -17,7 +17,13 @@ const SubmitButton = (props: Props) => {
 
   return (
     <Box pt={noMargin ? 0 : 2}>
-      <Button type="submit" loading={submitting} fullWidth {...rest}>
+      <Button
+        type="submit"
+        variant="secondary"
+        loading={submitting}
+        fullWidth
+        {...rest}
+      >
         {children}
       </Button>
     </Box>

@@ -1,6 +1,8 @@
 import { User } from 'firebase/auth';
 import {
+  Dispatch,
   PropsWithChildren,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -12,30 +14,53 @@ import { UserData, getUserData } from 'firebase/database.ts';
 
 export type LoggedInUser = {
   user: User;
-  data: UserData;
+  data?: UserData;
 };
 
-const AuthContext = createContext<LoggedInUser | undefined>(undefined);
+type LoggedInUserState = [
+  LoggedInUser | undefined,
+  Dispatch<SetStateAction<LoggedInUser | undefined>>,
+];
+
+const AuthContext = createContext<LoggedInUserState>(undefined as never);
 
 export const AuthProvider = (props: PropsWithChildren) => {
   const { children } = props;
 
+  const [uid, setUid] = useState<string>();
   const [user, setUser] = useState<LoggedInUser>();
 
   useEffect(() => {
-    onAuthChanged(async (u) => {
+    const unsub = onAuthChanged((u) => {
       if (u) {
         localStorage.setItem('auth', 'true');
-        const userData = await getUserData(u.uid);
-        setUser({ user: u, data: userData as never });
+        setUser({ user: u });
+        setUid(u.uid);
       } else {
         localStorage.removeItem('auth');
         setUser(undefined);
+        setUid(undefined);
       }
     });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    if (!uid) return;
+    getUserData(uid).then((userData) => {
+      setUser((prev) => ({ ...prev!, data: userData }));
+    });
+  }, [uid]);
+
+  return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <AuthContext.Provider value={[user, setUser]}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 const useLoggedInUser = () => useContext(AuthContext);

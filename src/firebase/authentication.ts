@@ -9,22 +9,15 @@ import {
 
 import firebase from './index.ts';
 
-const Auth = getAuth(firebase);
+const auth = getAuth(firebase);
 
-export const signUp = (email: string, password: string) => {
-  createUserWithEmailAndPassword(Auth, email, password);
-};
+export const signUp = (email: string, password: string) =>
+  createUserWithEmailAndPassword(auth, email, password);
 
-export const signIn = (email: string, password: string) => {
-  signInWithEmailAndPassword(Auth, email, password);
-};
+export const signIn = (email: string, password: string) =>
+  signInWithEmailAndPassword(auth, email, password);
 
-export const signOut = () => {
-  fbSignOut(Auth);
-};
+export const signOut = () => fbSignOut(auth);
 
-export const onAuthChanged = (
-  callback: (user: User | null) => Promise<void>,
-) => {
-  onAuthStateChanged(Auth, callback);
-};
+export const onAuthChanged = (callback: (user: User | null) => void) =>
+  onAuthStateChanged(auth, callback);

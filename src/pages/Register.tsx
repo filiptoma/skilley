@@ -1,20 +1,21 @@
 import { Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import CheckboxInput from 'components/form/CheckboxInput.tsx';
 import Form from 'components/form/Form.tsx';
 import PasswordInput from 'components/form/PasswordInput.tsx';
 import SubmitButton from 'components/form/SubmitButton.tsx';
 import TextInput from 'components/form/TextInput.tsx';
 import Link from 'components/Link.tsx';
-import { signIn } from 'firebase/authentication.ts';
-import { getUserData } from 'firebase/database.ts';
+import { signUp } from 'firebase/authentication.ts';
+import { setUserData } from 'firebase/database.ts';
 import useLoggedInUser from 'hooks/useLoggedInUser.tsx';
 import useNotifications from 'hooks/useNotifications.ts';
 import Centered from 'layout/Centered.tsx';
 import { getAuthError } from 'utils/index.ts';
-import { LoginSchema } from 'utils/schemas.ts';
+import { RegisterSchema } from 'utils/schemas.ts';
 
-const Login = () => {
+const Register = () => {
   const { notifySuccess, notifyError } = useNotifications();
   const navigate = useNavigate();
   const [, setUser] = useLoggedInUser();
@@ -23,14 +24,19 @@ const Login = () => {
     <Centered>
       <Stack spacing={4} p={8} minWidth="40%">
         <Typography variant="h4">
-          <strong>Přihlášení</strong>
+          <strong>Registrace</strong>
         </Typography>
         <Form
-          schema={LoginSchema}
+          schema={RegisterSchema}
           onSubmit={async (v) => {
             try {
-              const u = await signIn(v.email, v.password);
-              const userData = await getUserData(u.user.uid);
+              const u = await signUp(v.email, v.password);
+              notifySuccess('Registrace úspěšná');
+              const userData = await setUserData(u.user.uid, {
+                id: u.user.uid,
+                role: v.company ? 'COMPANY' : 'PERSON',
+              });
+              console.log(userData);
               setUser((prev) => ({ ...prev!, data: userData }));
               notifySuccess('Přihlášen 👍');
               navigate('/');
@@ -40,13 +46,18 @@ const Login = () => {
           }}
         >
           <TextInput id="email" label="Email" />
-          <PasswordInput id="password" label="Heslo" />
-          <Link to="/register">Registrovat se</Link>
-          <SubmitButton>Přihlásit</SubmitButton>
+          <PasswordInput
+            id="password"
+            label="Heslo"
+            helperText="Heslo musí mít alespoň 5 znaků"
+          />
+          <CheckboxInput id="company" label="Registrace společenosti" />
+          <Link to="/login">Přihlásit se</Link>
+          <SubmitButton>Registrovat účet</SubmitButton>
         </Form>
       </Stack>
     </Centered>
   );
 };
 
-export default Login;
+export default Register;
