@@ -2,19 +2,18 @@ import { CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
 import { Autocomplete, Checkbox } from '@mui/material';
 import { useField } from 'react-final-form';
 
-import { inputOptionsMapper } from 'utils/index.ts';
-
 import TextInput from './TextInput.tsx';
 
-type Props = {
+type Props<T> = {
   id: string;
   label: string;
   helperText?: string;
-  data: Record<symbol, string>;
+  options: T[];
+  getOptionLabel: (value: T) => string;
 };
 
-const AutocompleteMultipleInput = (props: Props) => {
-  const { id, label, helperText, data } = props;
+const AutocompleteMultipleInput = <T,>(props: Props<T>) => {
+  const { id, label, helperText, options, getOptionLabel } = props;
 
   const {
     input: { value, ...input },
@@ -30,21 +29,13 @@ const AutocompleteMultipleInput = (props: Props) => {
   return (
     <Autocomplete
       multiple
-      options={inputOptionsMapper(data)}
-      value={
-        value === ''
-          ? []
-          : value.map((v: keyof typeof data) => ({
-              key: v,
-              value: v,
-              label: data[v],
-            }))
-      }
-      onChange={(_, options) => input.onChange(options.map((o) => o.value))}
+      options={options}
+      value={value === '' ? [] : value}
+      onChange={(_, o) => input.onChange(o)}
       disableCloseOnSelect
-      isOptionEqualToValue={(o, v) => o.value === v.value}
-      getOptionLabel={(o) => o.label}
-      renderOption={(renderProps, option, { selected }) => (
+      isOptionEqualToValue={(o, v) => getOptionLabel(o) === getOptionLabel(v)}
+      getOptionLabel={(o) => getOptionLabel(o)}
+      renderOption={(renderProps, o, { selected }) => (
         <li {...renderProps}>
           <Checkbox
             icon={<CheckBoxOutlineBlank fontSize="small" />}
@@ -52,7 +43,7 @@ const AutocompleteMultipleInput = (props: Props) => {
             style={{ marginRight: 4 }}
             checked={selected}
           />
-          {option.label}
+          {getOptionLabel(o)}
         </li>
       )}
       renderInput={(inputProps) => (
@@ -61,12 +52,6 @@ const AutocompleteMultipleInput = (props: Props) => {
           id={id}
           label={label}
           helperText={helperText}
-          onChange={(e) => {
-            if (typeof e.target.value === 'string') {
-              // eslint-disable-next-line no-useless-return
-              return;
-            }
-          }}
         />
       )}
     />

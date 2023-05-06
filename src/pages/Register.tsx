@@ -8,7 +8,7 @@ import SubmitButton from 'components/form/SubmitButton.tsx';
 import TextInput from 'components/form/TextInput.tsx';
 import Link from 'components/Link.tsx';
 import { signUp } from 'firebase/authentication.ts';
-import { setUserData } from 'firebase/database.ts';
+import { addUserData } from 'firebase/database.ts';
 import useLoggedInUser from 'hooks/useLoggedInUser.tsx';
 import useNotifications from 'hooks/useNotifications.ts';
 import Centered from 'layout/Centered.tsx';
@@ -32,14 +32,13 @@ const Register = () => {
             try {
               const u = await signUp(v.email, v.password);
               notifySuccess('Registrace úspěšná');
-              const userData = await setUserData(u.user.uid, {
+              const userData = await addUserData(u.user.uid, {
                 id: u.user.uid,
                 role: v.company ? 'COMPANY' : 'PERSON',
               });
-              console.log(userData);
               setUser((prev) => ({ ...prev!, data: userData }));
               notifySuccess('Přihlášen 👍');
-              navigate('/');
+              navigate(userData?.role === 'COMPANY' ? '/offers/my' : '/');
             } catch (e) {
               notifyError(getAuthError(e));
             }

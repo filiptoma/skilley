@@ -44,7 +44,7 @@ const SelectInput = <T,>(props: Props<T>) => {
         {...rest}
       >
         <MenuItem value="-1" disabled>
-          Choose option
+          Vyberte možnost
         </MenuItem>
         {options.map((o, i) => (
           <MenuItem key={o.key} value={i}>

@@ -33,7 +33,7 @@ const Login = () => {
               const userData = await getUserData(u.user.uid);
               setUser((prev) => ({ ...prev!, data: userData }));
               notifySuccess('Přihlášen 👍');
-              navigate('/');
+              navigate(userData?.role === 'COMPANY' ? '/offers/my' : '/');
             } catch (e) {
               notifyError(getAuthError(e));
             }

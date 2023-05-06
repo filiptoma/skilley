@@ -51,7 +51,7 @@ const Form = <T extends z.ZodSchema>(props: Props<T>) => {
       render={
         render ||
         (({ handleSubmit }) => (
-          <Stack component="form" onSubmit={handleSubmit} spacing={2}>
+          <Stack component="form" onSubmit={handleSubmit} spacing={4}>
             {children}
           </Stack>
         ))

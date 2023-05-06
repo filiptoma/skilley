@@ -21,7 +21,7 @@ const Layout = (props: PropsWithChildren) => {
           <CircularProgress color="primary" />
         </Centered>
       ) : (
-        <Box sx={{ px: 2, py: 2 }}>{children}</Box>
+        <Box sx={{ px: 4, py: 6 }}>{children}</Box>
       )}
     </>
   );

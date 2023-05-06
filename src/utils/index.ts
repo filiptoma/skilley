@@ -4,6 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { TJobForm, TJobPlace, TJobSkill } from './schemas.ts';
+
 const appendIssue = (
   obj: Record<string, unknown>,
   i: z.ZodIssue,
@@ -58,6 +60,11 @@ const getNodeText = (node: React.ReactNode): string => {
   return String(node);
 };
 
+export const timeoutAsync = (ms: number) =>
+  new Promise((resolver) => {
+    setTimeout(resolver, ms);
+  });
+
 export type LinkProps = {
   to: string;
   title?: string;
@@ -101,4 +108,23 @@ export const getAuthError = (error: unknown): string | undefined => {
   return error instanceof FirebaseError
     ? firebaseErrors[error.code]
     : undefined;
+};
+
+export const JobSkillNames: Record<TJobSkill, string> = {
+  JUNIOR: 'Junior',
+  MEDIOR: 'Medior',
+  SENIOR: 'Senior',
+};
+
+export const JobPlaceNames: Record<TJobPlace, string> = {
+  BRATISLAVA: 'Bratislava',
+  BRNO: 'Brno',
+  REMOTE: 'Remote',
+};
+
+export const JobFormNames: Record<TJobForm, string> = {
+  FULLTIME: 'Plný pracovní úvazek',
+  PARTTIME: 'Částečný pracovní úvazek',
+  INTERNSHIP: 'Stáž',
+  FREELANCE: 'Freelance',
 };

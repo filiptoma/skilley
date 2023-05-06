@@ -7,6 +7,7 @@ import {
   Menu,
   MenuItem,
   Stack,
+  Typography,
   useTheme,
 } from '@mui/material';
 import { useState } from 'react';
@@ -55,7 +56,11 @@ const Header = () => {
                 aria-haspopup="true"
                 onClick={(e) => setMenuAnchorEl(e.currentTarget)}
                 color="inherit"
+                sx={{ borderRadius: 2 }}
               >
+                <Typography mr={2}>
+                  <strong>{user.user.email}</strong>
+                </Typography>
                 <AccountCircle fontSize="medium" />
               </IconButton>
               <Menu
@@ -71,7 +76,7 @@ const Header = () => {
                   <ListItemIcon>
                     <Person />
                   </ListItemIcon>
-                  {user.user.email}
+                  Profil
                 </MenuItem>
                 <Divider />
                 <MenuItem

@@ -33,6 +33,7 @@ const Button = (props: Props) => {
             borderRadius: pill ? 100 : 2,
             textTransform: 'none',
             color: theme.palette.text.primary,
+            fontWeight: 700,
           }}
           {...rest}
           startIcon={loading ? null : rest.startIcon}
@@ -45,6 +46,7 @@ const Button = (props: Props) => {
                 sx={{ mr: 1 }}
                 color="inherit"
                 size={14}
+                thickness={6}
               />
               Načítání...
             </>
@@ -57,31 +59,35 @@ const Button = (props: Props) => {
   }
 
   return (
-    <MuiButton
-      disabled={!!disabled || !!loading}
-      sx={{
-        borderRadius: pill ? 100 : 2,
-      }}
-      {...rest}
-      startIcon={loading ? null : rest.startIcon}
-      variant="contained"
-      size="large"
-      color={variant === 'primary' ? 'primary' : 'secondary'}
-    >
-      {loading ? (
-        <>
-          <CircularProgress
-            aria-label="Načítání..."
-            sx={{ mr: 1 }}
-            color="inherit"
-            size={14}
-          />
-          Načítání...
-        </>
-      ) : (
-        children
-      )}
-    </MuiButton>
+    <Box>
+      <MuiButton
+        disabled={!!disabled || !!loading}
+        sx={{
+          borderRadius: pill ? 100 : 2,
+          fontWeight: 700,
+        }}
+        {...rest}
+        startIcon={loading ? null : rest.startIcon}
+        variant="contained"
+        size="large"
+        color={variant === 'primary' ? 'primary' : 'secondary'}
+      >
+        {loading ? (
+          <>
+            <CircularProgress
+              aria-label="Načítání..."
+              sx={{ mr: 1 }}
+              color="inherit"
+              size={14}
+              thickness={6}
+            />
+            Načítání...
+          </>
+        ) : (
+          children
+        )}
+      </MuiButton>
+    </Box>
   );
 };
 

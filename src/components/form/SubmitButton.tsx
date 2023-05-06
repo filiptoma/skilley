@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { ComponentProps } from 'react';
 import { useFormState } from 'react-final-form';
 
@@ -16,17 +15,15 @@ const SubmitButton = (props: Props) => {
   });
 
   return (
-    <Box pt={noMargin ? 0 : 2}>
-      <Button
-        type="submit"
-        variant="secondary"
-        loading={submitting}
-        fullWidth
-        {...rest}
-      >
-        {children}
-      </Button>
-    </Box>
+    <Button
+      type="submit"
+      variant="secondary"
+      loading={submitting}
+      fullWidth
+      {...rest}
+    >
+      {children}
+    </Button>
   );
 };
 
