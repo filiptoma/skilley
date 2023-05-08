@@ -876,10 +876,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/fugaz-one/-/fugaz-one-4.5.9.tgz#8432c6f0ce29ff2ae7207d93241b50d36efa0b6e"
   integrity sha512-6qUCEidPtVEU4xlcud5yiYMWOyJgfr82QWndod9UaPBVrXMaHBKkMH7OCT6jzvabyDN44D2lXCNPKnzFuKXOrQ==
 
-"@fontsource/lato@^4.5.10":
-  version "4.5.10"
-  resolved "https://registry.yarnpkg.com/@fontsource/lato/-/lato-4.5.10.tgz#1ab3d33282e605886e4a8b4c32b1f230a4cb5ea6"
-  integrity sha512-2hYR6r661Cq9B8zugtu6yxuOKqrVhAgfOSaPSq8XoxbC4ebsl0KOTy/vPoP+9U7JuQVLfrmikirW4a9Z0nDUug==
+"@fontsource/source-sans-pro@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.11.tgz#06b3f08ef1a5250d78c8198e5a0482b5d87a4d52"
+  integrity sha512-f7iw44q1EjBv3MNcHCGAgrW/QVyweaEouFsJzykPhTOGnZFSwFJRISToXornOmuAy7xUUGiVdqOLiykgZoYB8A==
 
 "@grpc/grpc-js@~1.7.0":
   version "1.7.3"

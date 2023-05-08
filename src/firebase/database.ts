@@ -1,13 +1,16 @@
 import {
   CollectionReference,
   DocumentReference,
+  QueryConstraint,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getFirestore,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 
 import { TJobForm, TJobPlace, TJobSkill } from 'utils/schemas.ts';
@@ -21,7 +24,18 @@ export type Role = 'ADMIN' | 'PERSON' | 'COMPANY';
 export type UserData = {
   id: string;
   role: Role;
+  name: string;
+  email: string;
+  bio?: string;
 };
+
+export const usersCollection = collection(
+  db,
+  'users',
+) as CollectionReference<UserData>;
+
+export const usersByRoleQuery = (role: Role) =>
+  query(usersCollection, where('role', '==', role));
 
 const userDoc = (id: string) =>
   doc(db, 'users', id) as DocumentReference<UserData>;
@@ -39,6 +53,10 @@ export const addUserData = async (id: string, data: UserData) => {
 export const updateUserData = async (id: string, data: UserData) => {
   await updateDoc(userDoc(id), data);
   return getUserData(id);
+};
+
+export const deleteUserData = async (id: string) => {
+  await deleteDoc(userDoc(id));
 };
 
 export type JobOffer = {
@@ -60,13 +78,19 @@ export type JobOffer = {
   offering: string;
 };
 
-const offerDoc = (id: string) =>
-  doc(db, 'offers', id) as DocumentReference<JobOffer>;
-
 export const offersCollection = collection(
   db,
   'offers',
 ) as CollectionReference<JobOffer>;
+
+export const offersByCompanyQuery = (companyId: string) =>
+  query(offersCollection, where('company.id', '==', companyId));
+
+export const offersByFilterQuery = (constraints: QueryConstraint[]) =>
+  query(offersCollection, ...constraints);
+
+const offerDoc = (id: string) =>
+  doc(db, 'offers', id) as DocumentReference<JobOffer>;
 
 export const getOffer = async (id: string) => {
   const offer = await getDoc(offerDoc(id));
@@ -101,4 +125,8 @@ export const tagsCollection = collection(
 
 export const addTag = async (id: string, data: Tag) => {
   await setDoc(tagDoc(id), data);
+};
+
+export const deleteTag = async (id: string) => {
+  await deleteDoc(tagDoc(id));
 };

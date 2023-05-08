@@ -11,7 +11,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['Lato', 'sans-serif'].join(','),
+    fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
   },
 });
 

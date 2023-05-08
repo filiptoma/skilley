@@ -42,7 +42,7 @@ const Login = () => {
           <TextInput id="email" label="Email" />
           <PasswordInput id="password" label="Heslo" />
           <Link to="/register">Registrovat se</Link>
-          <SubmitButton>Přihlásit</SubmitButton>
+          <SubmitButton>Přihlásit se</SubmitButton>
         </Form>
       </Stack>
     </Centered>

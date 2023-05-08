@@ -1,10 +1,16 @@
+import dayjs from 'dayjs';
 import { FirebaseError } from 'firebase/app';
+import { Timestamp } from 'firebase/firestore';
 import { omit } from 'lodash-es';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { JobOffer, Role } from 'firebase/database.ts';
+
 import { TJobForm, TJobPlace, TJobSkill } from './schemas.ts';
+
+export const DRAWER_WIDTH = 300;
 
 const appendIssue = (
   obj: Record<string, unknown>,
@@ -108,6 +114,21 @@ export const getAuthError = (error: unknown): string | undefined => {
   return error instanceof FirebaseError
     ? firebaseErrors[error.code]
     : undefined;
+};
+
+export const timestampToDate = (timestamp: unknown) =>
+  (timestamp as Timestamp).toDate();
+
+export const timestampToDayjs = (timestamp: unknown) =>
+  dayjs(timestampToDate(timestamp));
+
+export const sortOffersByTopped = (a: JobOffer, b: JobOffer) =>
+  Number(b.isTopped) - Number(a.isTopped);
+
+export const UserRoleNames: Record<Role, string> = {
+  ADMIN: 'Admin',
+  PERSON: 'Osoba',
+  COMPANY: 'Společnost',
 };
 
 export const JobSkillNames: Record<TJobSkill, string> = {

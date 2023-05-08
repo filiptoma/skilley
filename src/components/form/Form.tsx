@@ -1,21 +1,32 @@
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { ValidationErrors } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import { PropsWithChildren } from 'react';
 import { Form as FinalForm, FormRenderProps } from 'react-final-form';
 import { z } from 'zod';
 
+import BackButton from 'components/BackButton.tsx';
 import { zodToFinalFormError } from 'utils/index.ts';
 
 type Props<T extends z.ZodSchema> = {
+  title?: string;
   schema: T;
   initialValues?: Partial<z.input<T>>;
+  back?: boolean;
   onSubmit: (values: z.infer<T>) => Promise<ValidationErrors> | Promise<void>;
   render?: (props: FormRenderProps) => React.ReactNode;
 } & PropsWithChildren;
 
 const Form = <T extends z.ZodSchema>(props: Props<T>) => {
-  const { schema, initialValues = {}, onSubmit, render, children } = props;
+  const {
+    title,
+    schema,
+    initialValues = {},
+    back,
+    onSubmit,
+    render,
+    children,
+  } = props;
 
   return (
     <FinalForm
@@ -51,8 +62,20 @@ const Form = <T extends z.ZodSchema>(props: Props<T>) => {
       render={
         render ||
         (({ handleSubmit }) => (
-          <Stack component="form" onSubmit={handleSubmit} spacing={4}>
-            {children}
+          <Stack spacing={6}>
+            {title || back ? (
+              <Stack spacing={1}>
+                {back && <BackButton />}
+                {title && (
+                  <Typography variant="h4" fontWeight={900}>
+                    {title}
+                  </Typography>
+                )}
+              </Stack>
+            ) : null}
+            <Stack component="form" onSubmit={handleSubmit} spacing={4}>
+              {children}
+            </Stack>
           </Stack>
         ))
       }

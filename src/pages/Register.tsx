@@ -35,10 +35,12 @@ const Register = () => {
               const userData = await addUserData(u.user.uid, {
                 id: u.user.uid,
                 role: v.company ? 'COMPANY' : 'PERSON',
+                name: '',
+                email: u.user.email!,
               });
               setUser((prev) => ({ ...prev!, data: userData }));
               notifySuccess('Přihlášen 👍');
-              navigate(userData?.role === 'COMPANY' ? '/offers/my' : '/');
+              navigate('/profile/edit');
             } catch (e) {
               notifyError(getAuthError(e));
             }

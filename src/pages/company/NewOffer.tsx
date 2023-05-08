@@ -1,7 +1,5 @@
-import { InputAdornment, Stack, Typography } from '@mui/material';
-import { onSnapshot } from 'firebase/firestore';
+import { Box, InputAdornment } from '@mui/material';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AutocompleteMultipleInput from 'components/form/AutocompleteMultipleInput.tsx';
@@ -14,6 +12,7 @@ import TextInput from 'components/form/TextInput.tsx';
 import { JobOffer, Tag, addOffer, tagsCollection } from 'firebase/database.ts';
 import useLoggedInUser from 'hooks/useLoggedInUser.tsx';
 import useNotifications from 'hooks/useNotifications.ts';
+import { useSnapshot } from 'hooks/useSnapshot.ts';
 import {
   JobPlaceNames,
   JobSkillNames,
@@ -26,23 +25,13 @@ const NewOffer = () => {
   const [user] = useLoggedInUser();
   const { notifySuccess, notifyError } = useNotifications();
   const navigate = useNavigate();
-  const [tags, setTags] = useState<Tag[]>([]);
-
-  useEffect(() => {
-    const unsub = onSnapshot(tagsCollection, (snapshot) => {
-      setTags(snapshot.docs.map((doc) => doc.data()));
-    });
-    return () => {
-      unsub();
-    };
-  }, []);
+  const [tags] = useSnapshot(tagsCollection);
 
   return (
-    <Stack spacing={6} maxWidth="80%" px={16}>
-      <Typography variant="h4" fontWeight={900}>
-        Nová pracovní nabídka
-      </Typography>
+    <Box maxWidth="80%" px={16}>
       <Form
+        title="Nová pracovní nabídka"
+        back
         schema={NewOfferSchema}
         initialValues={{ start: new Date() }}
         onSubmit={async (v) => {
@@ -94,20 +83,16 @@ const NewOffer = () => {
           id="wage"
           label="Měsíční plat"
           InputProps={{
-            endAdornment: <InputAdornment position="end">kč</InputAdornment>,
+            endAdornment: <InputAdornment position="end">CZK</InputAdornment>,
           }}
         />
-        <DatePicker
-          id="start"
-          label="Datum nástupu"
-          helperText={`Pro možnost "hned" zvolte dnešní datum`}
-        />
-        <TextAreaInput id="description" label="Popis práce" />
+        <DatePicker id="start" label="Datum nástupu" />
+        <TextAreaInput id="description" label="Náplň práce" />
         <TextAreaInput id="requirements" label="Požadavky na uchazače" />
         <TextAreaInput id="offering" label="Benefity pro zaměstnance" />
         <SubmitButton>Vytvořit nabídku</SubmitButton>
       </Form>
-    </Stack>
+    </Box>
   );
 };
 

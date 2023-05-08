@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Toolbar } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
 import useLoggedInUser from 'hooks/useLoggedInUser.tsx';
@@ -16,12 +16,13 @@ const Layout = (props: PropsWithChildren) => {
   return (
     <>
       <Header />
+      <Toolbar />
       {isUserLoading ? (
         <Centered fullHeight>
           <CircularProgress color="primary" />
         </Centered>
       ) : (
-        <Box sx={{ px: 4, py: 6 }}>{children}</Box>
+        <Box p={4}>{children}</Box>
       )}
     </>
   );

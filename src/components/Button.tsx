@@ -18,6 +18,8 @@ const Button = (props: Props) => {
     disabled,
     loading,
     pill,
+    sx,
+    color,
     children,
     ...rest
   } = props;
@@ -30,6 +32,7 @@ const Button = (props: Props) => {
         <MuiButton
           disabled={!!disabled || !!loading}
           sx={{
+            ...sx,
             borderRadius: pill ? 100 : 2,
             textTransform: 'none',
             color: theme.palette.text.primary,
@@ -63,6 +66,7 @@ const Button = (props: Props) => {
       <MuiButton
         disabled={!!disabled || !!loading}
         sx={{
+          ...sx,
           borderRadius: pill ? 100 : 2,
           fontWeight: 700,
         }}
@@ -70,7 +74,7 @@ const Button = (props: Props) => {
         startIcon={loading ? null : rest.startIcon}
         variant="contained"
         size="large"
-        color={variant === 'primary' ? 'primary' : 'secondary'}
+        color={color ?? variant}
       >
         {loading ? (
           <>

@@ -69,16 +69,23 @@ export const NewOfferSchema = z.object({
   offering: z.string(),
 });
 
-// z.setErrorMap((issue) => {
-//   switch (issue.code) {
-//     case 'invalid_type':
-//       return { message: 'Požadováno' };
-//     case 'too_small': {
-//       if (issue.type === 'string' && issue.minimum === 1)
-//         return { message: 'Požadováno' };
-//       if (issue.type === 'array' && issue.minimum === 1)
-//         return { message: 'Alespoň jedna hodnota je požadována' };
-//     }
-//   }
-//   return { message: 'Neplatná hodnota' };
-// });
+export const EditOfferSchema = NewOfferSchema;
+
+export const EditProfileSchema = z.object({
+  name: z.string(),
+  bio: z.string().optional(),
+});
+
+z.setErrorMap((issue) => {
+  switch (issue.code) {
+    case 'invalid_type':
+      return { message: 'Požadováno' };
+    case 'too_small': {
+      if (issue.type === 'string' && issue.minimum === 1)
+        return { message: 'Požadováno' };
+      if (issue.type === 'array' && issue.minimum === 1)
+        return { message: 'Alespoň jedna hodnota je požadována' };
+    }
+  }
+  return { message: 'Neplatná hodnota' };
+});

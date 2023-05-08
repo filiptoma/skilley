@@ -33,7 +33,8 @@ const TextAreaInput = (props: Props) => {
       error={isError}
       helperText={isError ? submitError ?? error : helperText}
       multiline
-      maxRows={5}
+      minRows={3}
+      maxRows={8}
       disabled={disabled}
       variant="outlined"
     />
