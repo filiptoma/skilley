@@ -1,4 +1,4 @@
-import { Stack, Typography, colors, useTheme } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ import { sortOffersByTopped } from 'utils/index.ts';
 const Company = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const theme = useTheme();
 
   const [company, setCompany] = useState<UserData>();
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +49,7 @@ const Company = () => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        bgcolor={colors.grey[100]}
+        sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
         p={4}
         borderRadius={2}
       >
@@ -58,7 +57,7 @@ const Company = () => {
           <Typography
             variant="h4"
             fontWeight={700}
-            color={theme.palette.primary.main}
+            sx={{ color: (theme) => theme.palette.primary.main }}
           >
             {company?.name}
           </Typography>

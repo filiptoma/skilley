@@ -18,18 +18,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   colors,
 } from '@mui/material';
-import { useState } from 'react';
+import { onSnapshot, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 import {
   JobOffer,
   deleteOffer,
-  offersCollection,
+  offersByFilterQuery,
   updateOffer,
 } from 'firebase/database.ts';
-import { useSnapshot } from 'hooks/useSnapshot.ts';
 import { timestampToDayjs } from 'utils/index.ts';
 
 const Actions = (props: { offer: JobOffer }) => {
@@ -96,13 +98,37 @@ const Actions = (props: { offer: JobOffer }) => {
 };
 
 const OffersDashboard = () => {
-  const [offers] = useSnapshot(offersCollection);
+  const [showOffers, setShowOffers] = useState<'pending' | 'all'>('all');
+  const [offers, setOffers] = useState<JobOffer[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      showOffers === 'pending'
+        ? offersByFilterQuery([where('isApproved', '==', false)])
+        : offersByFilterQuery([]),
+      (snapshot) => {
+        setOffers(snapshot.docs.map((doc) => doc.data()));
+      },
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [showOffers]);
 
   return (
     <Stack spacing={6}>
       <Typography variant="h5" fontWeight={900}>
         Nabídky
       </Typography>
+      <ToggleButtonGroup
+        value={showOffers}
+        exclusive
+        onChange={(_e, v) => setShowOffers(v)}
+      >
+        <ToggleButton value="pending">Čekající na schválení</ToggleButton>
+        <ToggleButton value="all">Všechny</ToggleButton>
+      </ToggleButtonGroup>
       <Paper variant="outlined" sx={{ width: '100%' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader>

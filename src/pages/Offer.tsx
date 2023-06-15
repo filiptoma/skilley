@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
   colors,
-  useTheme,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,7 +23,6 @@ import { JobFormNames, JobPlaceNames, timestampToDayjs } from 'utils/index.ts';
 const Offer = () => {
   const { id } = useParams();
   const [user] = useLoggedInUser();
-  const theme = useTheme();
   const { notifyError } = useNotifications();
   const navigate = useNavigate();
 
@@ -67,11 +65,11 @@ const Offer = () => {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            bgcolor={colors.grey[100]}
             p={4}
             borderRadius={2}
             border={offer?.isTopped ? 4 : 0}
             borderColor={colors.amber[300]}
+            sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
           >
             <Stack spacing={2}>
               {offer?.isTopped && (
@@ -81,6 +79,7 @@ const Offer = () => {
                   px={1}
                   py={0.5}
                   borderRadius={2}
+                  color={colors.common.black}
                 >
                   <Typography variant="body2" fontWeight={700}>
                     TOPOVANÁ
@@ -92,7 +91,7 @@ const Offer = () => {
                   <Typography
                     variant="h5"
                     fontWeight={700}
-                    color={theme.palette.primary.main}
+                    sx={{ color: (theme) => theme.palette.primary.main }}
                     alignSelf="start"
                   >
                     {offer?.company.name}
@@ -133,7 +132,7 @@ const Offer = () => {
             </Box>
           </Stack>
           {!offer?.isApproved && (
-            <Alert severity="warning">
+            <Alert severity="error">
               <AlertTitle>
                 <strong>Nabídka není ověřena</strong>
               </AlertTitle>

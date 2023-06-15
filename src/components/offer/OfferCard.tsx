@@ -21,7 +21,11 @@ const OfferCard = (props: Props) => {
         py={2}
         borderRadius="inherit"
         border={offer.isTopped ? 4 : 2}
-        borderColor={offer.isTopped ? colors.amber[300] : colors.grey[200]}
+        borderColor={colors.grey[200]}
+        sx={{
+          borderColor: (theme) =>
+            offer.isTopped ? colors.amber[300] : theme.palette.background.paper,
+        }}
       >
         <Box minWidth="70%">
           <Typography color={colors.grey[500]} fontWeight={700}>

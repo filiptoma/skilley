@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { Stack, Typography, colors, useTheme } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,6 @@ import useNotifications from 'hooks/useNotifications.ts';
 const Profile = () => {
   const [user] = useLoggedInUser();
   const navigate = useNavigate();
-  const theme = useTheme();
   const { notifySuccess } = useNotifications();
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,14 +21,14 @@ const Profile = () => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        bgcolor={colors.grey[100]}
+        sx={{ bgcolor: (theme) => theme.palette.background.paper }}
         p={4}
         borderRadius={2}
       >
         <Typography
           variant="h4"
           fontWeight={700}
-          color={theme.palette.primary.main}
+          sx={{ color: (theme) => theme.palette.primary.main }}
         >
           {user?.data?.name}
         </Typography>

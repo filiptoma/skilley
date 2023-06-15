@@ -50,7 +50,7 @@ const Header = () => {
                 aria-haspopup="true"
                 onClick={(e) => setMenuAnchorEl(e.currentTarget)}
                 color="inherit"
-                sx={{ borderRadius: 2 }}
+                sx={{ borderRadius: 1 }}
               >
                 <Typography mr={2}>
                   <strong>{user.user.email}</strong>
@@ -107,7 +107,7 @@ const Header = () => {
               edge="end"
               onClick={() => navigate('/login')}
               color="inherit"
-              sx={{ borderRadius: 2 }}
+              sx={{ borderRadius: 1 }}
             >
               <Typography mr={1}>
                 <strong>Přihlásit se</strong>

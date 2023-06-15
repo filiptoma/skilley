@@ -33,7 +33,7 @@ const Button = (props: Props) => {
           disabled={!!disabled || !!loading}
           sx={{
             ...sx,
-            borderRadius: pill ? 100 : 2,
+            borderRadius: pill ? 100 : 1,
             textTransform: 'none',
             color: theme.palette.text.primary,
             fontWeight: 700,
@@ -67,7 +67,7 @@ const Button = (props: Props) => {
         disabled={!!disabled || !!loading}
         sx={{
           ...sx,
-          borderRadius: pill ? 100 : 2,
+          borderRadius: pill ? 100 : 1,
           fontWeight: 700,
         }}
         {...rest}
